@@ -1,39 +1,56 @@
-import React, { useState } from 'react';
-import { TextField, FormControl, InputLabel, Select, MenuItem, Button, Grid, Typography,  Paper, Box } from '@mui/material';
+import React, { useState } from "react";
+import {
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Button,
+  Grid,
+  Typography,
+  Paper,
+  Box,
+} from "@mui/material";
 
-const ExpenseForm = () => {
-  const [date, setDate] = useState('');
-  const [amount, setAmount] = useState('');
-  const [category, setCategory] = useState('');
-  const [description, setDescription] = useState('');
+const ExpenseForm = ({ handleSetExpense }) => {
+  const [date, setDate] = useState("");
+  const [category, setCategory] = useState("");
+  const [amount, setAmount] = useState(""); // Renamed inputExpense to amount
+  const [description, setDescription] = useState("");
+
+  const handleAddExpense = () => {
+    // Call the handleSetExpense function with expense data
+    handleSetExpense({ category, amount: parseFloat(amount) });
+
+    // Reset form fields
+    setDate("");
+    setCategory("");
+    setAmount("");
+    setDescription("");
+  };
 
   const handleDateChange = (event) => {
     setDate(event.target.value);
-  };
-
-  const handleAmountChange = (event) => {
-    setAmount(event.target.value);
   };
 
   const handleCategoryChange = (event) => {
     setCategory(event.target.value);
   };
 
+  const handleAmountChange = (event) => {
+    setAmount(event.target.value);
+  };
+
   const handleDescriptionChange = (event) => {
     setDescription(event.target.value);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Handle form submission here
-    console.log('Form submitted:', { date, amount, category, description });
-    // You can add your logic to submit the form data
-  };
-
   return (
-    <Paper elevation={3} sx={{ padding: 3 }}>
-      <Typography variant="h5" gutterBottom>Expense Form</Typography>
-      <form onSubmit={handleSubmit}>
+    <Paper elevation={0} sx={{ padding: 3 }}>
+      <Typography variant="h5" gutterBottom>
+        Expense Form
+      </Typography>
+      <form>
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
             <FormControl fullWidth>
@@ -52,11 +69,11 @@ const ExpenseForm = () => {
           <Grid item xs={12} md={6}>
             <TextField
               fullWidth
-              id="amount"
-              label="Amount"
+              id="expense"
+              label="Expense"
               type="number"
-              value={amount}
-              onChange={handleAmountChange}
+              value={amount} // Bind value to amount
+              onChange={handleAmountChange} // Update amount on change
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -69,8 +86,11 @@ const ExpenseForm = () => {
                 onChange={handleCategoryChange}
               >
                 <MenuItem value="food">Food</MenuItem>
-                <MenuItem value="transportation">Transportation</MenuItem>
+                <MenuItem value="transporation">Transporation</MenuItem>
                 <MenuItem value="housing">Housing</MenuItem>
+                <MenuItem value="bills/fee">Bills/fee</MenuItem>
+                <MenuItem value="clothing">Clothing</MenuItem>
+                <MenuItem value="groceries">Groceries</MenuItem>
                 {/* Add more categories as needed */}
               </Select>
             </FormControl>
@@ -88,7 +108,14 @@ const ExpenseForm = () => {
           </Grid>
           <Grid item xs={12}>
             <Box textAlign="right">
-              <Button variant="contained" color="primary" type="submit">Submit</Button>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleAddExpense}
+                sx={{ bgcolor: "#121935" }}
+              >
+                Add expense
+              </Button>
             </Box>
           </Grid>
         </Grid>
