@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import Form from "./Form";
 import { Cards } from "./Cards";
 import ExpenseForm from "./ExpenseForm";
+import Chart from "./dashboard/Chart";
+import CategoryExpenseChart from "./dashboard/CategoryExpenseChart";
 const Parent = () => {
   const [budget, setBudget] = useState(0);
   const [inputBudget, setInputBudget] = useState(0);
@@ -10,6 +12,7 @@ const Parent = () => {
   const [remainingBudget, setRemainingBudget] = useState(0);
   const [incomeName, setIncomeName] = useState("");
   const [incomeAmount, setIncomeAmount] = useState("");
+  const [categoryExpenses, setCategoryExpenses] = useState([]);
   // Update remaining budget whenever budget or expense changes
   useEffect(() => {
     const remaining = budget - expense;
@@ -51,15 +54,23 @@ const Parent = () => {
     setInputExpense(e.target.value);
   };
 
-  const handleSetExpense = (e) => {
-    setExpense(inputExpense);
-  };
 
   const handleResetBudget=()=>{
     setBudget("");
     setIncomeAmount("");
   }
 
+   // Handler to add an expense and update category expenses
+   const handleSetExpense = (expenseData) => {
+    // Update expense
+    setExpense((prevExpense) => prevExpense + expenseData.amount);
+
+    // Update category expenses
+    setCategoryExpenses((prevCategoryExpenses) => [
+      ...prevCategoryExpenses,
+      { category: expenseData.category, expense: expenseData.amount },
+    ]);
+  };
   return (
     <div>
       <Cards
@@ -82,7 +93,12 @@ const Parent = () => {
         handleExpenseChange={handleExpenseChange}
         handleSetExpense={handleSetExpense}
       />
+      <Chart budget={budget} 
+      expense={expense}
+      remainingBudget={remainingBudget}/>
+       <CategoryExpenseChart categoryExpenses={categoryExpenses}  />
     </div>
+
   );
 };
 
