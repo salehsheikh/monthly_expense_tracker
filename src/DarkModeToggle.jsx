@@ -1,11 +1,14 @@
 import React from "react";
 import { IconButton } from "@mui/material";
-import { Brightness4 as DarkModeIcon, Brightness7 as LightModeIcon } from "@mui/icons-material";
-
+import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
+import WbSunnyOutlinedIcon from '@mui/icons-material/WbSunnyOutlined';
 const DarkModeToggle = ({ darkMode, onToggle }) => {
   return (
-    <IconButton onClick={onToggle} sx={{ position: "absolute", right: "20px", top: "20px" }}>
-      {darkMode ? <LightModeIcon /> : <DarkModeIcon />}
+    <IconButton
+      onClick={onToggle}
+      sx={{ position: "absolute", right: "20px", top: "20px" }}
+    >
+      {darkMode ? <WbSunnyOutlinedIcon /> : <DarkModeOutlinedIcon />}
     </IconButton>
   );
 };
