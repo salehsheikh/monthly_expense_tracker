@@ -20,7 +20,7 @@ const ExpenseForm = ({ handleSetExpense }) => {
 
   const handleAddExpense = () => {
     // Call the handleSetExpense function with expense data
-    handleSetExpense({ category, amount: parseFloat(amount) });
+    handleSetExpense({ category, amount: parseFloat(amount),date,description });
 
     // Reset form fields
     setDate("");
