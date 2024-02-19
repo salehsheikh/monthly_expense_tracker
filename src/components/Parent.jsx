@@ -4,6 +4,8 @@ import { Cards } from "./Cards";
 import ExpenseForm from "./ExpenseForm";
 import Chart from "./dashboard/Chart";
 import CategoryExpenseChart from "./dashboard/CategoryExpenseChart";
+import ExpenseList from "./ExpenseList"; // Import the ExpenseList component
+
 const Parent = () => {
   const [budget, setBudget] = useState(0);
   const [inputBudget, setInputBudget] = useState(0);
@@ -13,18 +15,27 @@ const Parent = () => {
   const [incomeName, setIncomeName] = useState("");
   const [incomeAmount, setIncomeAmount] = useState("");
   const [categoryExpenses, setCategoryExpenses] = useState([]);
+  const [expenses, setExpenses] = useState([]); // State for expenses
+
   // Update remaining budget whenever budget or expense changes
   useEffect(() => {
     const remaining = budget - expense;
     setRemainingBudget(remaining);
   }, [budget, expense]);
+ 
 
+// Define function to handle exporting expenses
+const handleExportExpenses = () => {
+  // Code to export expenses to Excel
+  console.log("Expenses exported to Excel");
+};
   const handleBudgetChange = (e) => {
     setInputBudget(e.target.value);
   };
 
   const handleSetBudget = (e) => {
     setBudget(inputBudget);
+    setInputBudget("");
   };
 
   //for updating
@@ -35,6 +46,7 @@ const Parent = () => {
   const handleAmountChange = (e) => {
     setIncomeAmount(e.target.value);
   };
+
   // Handler for adding income
   const handleAddIncome = () => {
     // Convert incomeAmount and current budget to numbers
@@ -49,19 +61,18 @@ const Parent = () => {
     setIncomeAmount("");
   };
 
-  //handler for adding  expense
+  //handler for adding expense
   const handleExpenseChange = (e) => {
     setInputExpense(e.target.value);
   };
 
-
-  const handleResetBudget=()=>{
+  const handleResetBudget = () => {
     setBudget("");
     setIncomeAmount("");
-  }
+  };
 
-   // Handler to add an expense and update category expenses
-   const handleSetExpense = (expenseData) => {
+  // Handler to add an expense and update category expenses
+  const handleSetExpense = (expenseData) => {
     // Update expense
     setExpense((prevExpense) => prevExpense + expenseData.amount);
 
@@ -70,7 +81,11 @@ const Parent = () => {
       ...prevCategoryExpenses,
       { category: expenseData.category, expense: expenseData.amount },
     ]);
+
+    // Add the new expense to the expenses list
+    setExpenses([...expenses, expenseData]);
   };
+
   return (
     <div>
       <Cards
@@ -93,12 +108,11 @@ const Parent = () => {
         handleExpenseChange={handleExpenseChange}
         handleSetExpense={handleSetExpense}
       />
-      <Chart budget={budget} 
-      expense={expense}
-      remainingBudget={remainingBudget}/>
-       <CategoryExpenseChart categoryExpenses={categoryExpenses}  />
+      <Chart budget={budget} expense={expense} remainingBudget={remainingBudget} />
+      <CategoryExpenseChart categoryExpenses={categoryExpenses} />
+      <ExpenseList expenses={expenses}
+        onExport={handleExportExpenses} /> {/* Pass expenses as prop */}
     </div>
-
   );
 };
 
