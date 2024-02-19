@@ -1,35 +1,66 @@
-import React, { useState } from 'react';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { CssBaseline, AppBar, Toolbar, IconButton, Typography } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import DarkModeToggle from './DarkModeToggle';
-import Sidebar from './components/Sidebar';
-import Parent from './components/Parent';
+import React, { useState } from "react";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { CssBaseline } from "@mui/material";
+import DarkModeToggle from "./DarkModeToggle";
+import Navbar from "./components/Navbar";
+import Parent from "./components/Parent";
 
 const App = () => {
   const [darkMode, setDarkMode] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Function to toggle between dark and light modes
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
   };
 
-  // Function to toggle the sidebar
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
-
   // Define light and dark themes
   const lightTheme = createTheme({
     palette: {
-      mode: 'light',
+      mode: "light",
+      primary: {
+        main: "#1976d2", // Set primary color globally
+      },
+    },
+    typography: {
+      fontFamily: "cursive",
+      button: {
+        textTransform: "none", // Disable uppercase for buttons
+        fontSize: "0.8rem", // Decrease button font size
+      },
+    },
+    components: {
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            borderRadius: 999, // Make buttons round
+          },
+        },
+      },
     },
   });
 
   const darkTheme = createTheme({
     palette: {
-      mode: 'dark',
+      mode: "dark",
+      primary: {
+        main: "#1976d2", // Set primary color globally
+      },
+    },
+    typography: {
+      fontFamily: "cursive",
+      button: {
+        textTransform: "none", // Disable uppercase for buttons
+        fontSize: "0.8rem", // Decrease button font size
+      },
+    },
+    components: {
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            borderRadius: 999, // Make buttons round
+          },
+        },
+      },
     },
   });
 
@@ -38,25 +69,9 @@ const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            onClick={toggleSidebar}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Expense Tracker
-          </Typography>
-          <DarkModeToggle darkMode={darkMode} onToggle={toggleDarkMode} />
-        </Toolbar>
-      </AppBar>
-      <Sidebar open={sidebarOpen} onClose={toggleSidebar} />
+      <CssBaseline /> {/* Wrap your components with Router */}
+      <Navbar />
+      <DarkModeToggle darkMode={darkMode} onToggle={toggleDarkMode} />
       <Parent />
     </ThemeProvider>
   );
