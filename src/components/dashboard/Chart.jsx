@@ -12,8 +12,8 @@ const Chart = ({ budget, expense, remainingBudget }) => {
   return (
     <BarChart
       series={chartData}
-      width={600}
-      height={350}
+      width={430}
+      height={300}
       options={{
         plugins: {
           legend: {
